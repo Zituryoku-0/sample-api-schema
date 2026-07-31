@@ -1,0 +1,60 @@
+name: OpenAPI CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+  push:
+    paths:
+      - "openapi/**"
+      - "redocly.yaml"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/openapi-ci.yml"
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: openapi-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate OpenAPI schema
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: touch dist/openapi.yaml
+        run: touch dist/openapi.yaml
+
+      - name: Lint OpenAPI schema
+        run: npm run lint
+
+      - name: Bundle OpenAPI schema
+        run: npm run bundle
+
+      - name: Upload bundled schema
+        uses: actions/upload-artifact@v4
+        with:
+          name: bundled-openapi-schema
+          path: dist/openapi.yaml
+          if-no-files-found: error
+          retention-days: 7
