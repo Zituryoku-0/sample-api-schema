@@ -1,0 +1,13 @@
+{
+  "name": "sample-api-schema",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "lint": "redocly lint",
+    "bundle": "redocly bundle openapi/openapi.yaml -o dist/bundle.yaml",
+    "validate": "npm run lint && npm run bundle"
+  },
+  "devDependencies": {
+    "@redocly/cli": "2.43.1"
+  }
+}

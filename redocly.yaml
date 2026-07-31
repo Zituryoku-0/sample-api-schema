@@ -1,0 +1,13 @@
+apis:
+  sample-api:
+    root: ./openapi/openapi.yaml
+
+extends:
+  - recommended
+
+rules:
+  operation-operationId: error
+  operation-summary: error
+  operation-description: warn
+  tag-description: warn
+  no-unused-components: warn
