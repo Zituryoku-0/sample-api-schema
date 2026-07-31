@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "lint": "redocly lint",
-    "bundle": "redocly bundle openapi/openapi.yaml -o dist/bundle.yaml",
+    "bundle": "redocly bundle openapi/openapi.yaml -o dist/openapi.yaml",
     "validate": "npm run lint && npm run bundle"
   },
   "devDependencies": {
