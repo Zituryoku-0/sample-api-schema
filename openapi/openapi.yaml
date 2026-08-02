@@ -1,4 +1,4 @@
-openapi: 3.2.0
+openapi: 3.0.3
 
 info:
   title: "sample_back Document"
@@ -110,8 +110,10 @@ components:
           example: error
     #ユーザー登録成功のレスポンスフォーマット
     successRegistUser:
+      type: object
+      nullable: true
       allOf:
-        - type: [object, "null"]
+        - type: object
           properties:
             responseInfo:
               $ref: "#/components/schemas/successResponseInfo"
@@ -130,8 +132,10 @@ components:
 
     #ログイン成功のレスポンスフォーマット
     successLoginUser:
+      type: object
+      nullable: true
       allOf:
-        - type: [object, "null"]
+        - type: object
           properties:
             responseInfo:
               $ref: "#/components/schemas/successResponseInfo"
