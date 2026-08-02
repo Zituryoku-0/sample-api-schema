@@ -42,119 +42,6 @@ paths:
                 $ref: "#/components/schemas/errorResponse"
           description: "Internal Server Error"
 
-  # itemパス
-  /item:
-    get:
-      operationId: getItem
-      description: 商品情報取得
-      summary: 商品情報取得
-      security: [] # 認証方式未定のため一旦認証不要
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/successItem"
-          description: "Successfully"
-        #ユーザー入力ミス
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/failureItem"
-          description: "Client Error"
-        # 在庫切れ
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/failureItem"
-          description: "Internal Server Error"
-  # お店パス
-  /shop:
-    get:
-      operationId: getShop
-      description: 店舗情報取得
-      summary: 店舗情報取得
-      security: [] # 認証方式未定のため一旦認証不要
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/successShop"
-          description: "Successfully"
-        #
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/failureShop"
-          description: "Client Error"
-        #
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/failureShop"
-          description: "Internal Server Error"
-  # 在庫数パス
-  /stock:
-    get:
-      operationId: getStock
-      description: 在庫数取得
-      summary: 在庫数取得
-      security: [] # 認証方式未定のため一旦認証不要
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/successStock"
-          description: "Successfully"
-        #
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/failureStock"
-          description: "Client Error"
-        #
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/failureStock"
-          description: "Internal Server Error"
-  # 一覧取得に成功
-  /getItemList:
-    get:
-      operationId: getItemList
-      description: 商品一覧取得
-      summary: 商品一覧取得
-      security: [] # 認証方式未定のため一旦認証不要
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/getItemList"
-          description: "Successfully"
-        #ユーザーミス
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/failureItemList"
-          description: "Client Error"
-        #
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/failureItemList"
-          description: "Internal Server Error"
-
   # ユーザー登録
   /registUser:
     post:
@@ -195,6 +82,32 @@ paths:
 
 components:
   schemas:
+    #レスポンスステータスコード（200）
+    successResponseInfo:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          example: "200"
+        message:
+          type: string
+          example: successfully
+    #レスポンスステータスコード（エラー）
+    errorResponseInfo:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          example: "500"
+        message:
+          type: string
+          example: error
     #ユーザー登録成功のレスポンスフォーマット
     successRegistUser:
       allOf:
@@ -225,32 +138,6 @@ components:
             data:
               $ref: "#/components/schemas/successLogin"
 
-    #レスポンスステータスコード（200）
-    successResponseInfo:
-      type: object
-      required:
-        - code
-        - message
-      properties:
-        code:
-          type: string
-          example: "200"
-        message:
-          type: string
-          example: successfully
-    #レスポンスステータスコード（エラー）
-    errorResponseInfo:
-      type: object
-      required:
-        - code
-        - message
-      properties:
-        code:
-          type: string
-          example: "500"
-        message:
-          type: string
-          example: error
     #ログイン時のリクエスト
     requestLogin:
       required:
@@ -288,176 +175,6 @@ components:
           type: string
           example: "ログインに成功しました。"
 
-    # 商品パス結果：成功
-    successItem:
-      required:
-        - itemId
-      type: object
-      properties:
-        itemId:
-          type: string
-          example: itemId1
-        itemName:
-          type: string
-          example: ティッシュ（5箱）
-        itemPrice:
-          type: string
-          example: "500"
-        stock:
-          type: string
-          example: "100"
-      xml:
-        name: item
-
-    # 商品パス結果：失敗
-    failureItem:
-      required:
-        - itemId
-      type: object
-      properties:
-        itemId:
-          type: string
-          example: "itemId1"
-        itemName:
-          type: string
-          example: "ティッシュ（5箱）"
-        itemPrice:
-          type: string
-          example: "500"
-        stock:
-          type: string
-          example: "100"
-      xml:
-        name: item
-
-    # お店パス結果：成功
-    successShop:
-      required:
-        - shopId
-      type: object
-      properties:
-        shopId:
-          type: string
-          example: shopId1
-        shopName:
-          type: string
-          example: 丸スーパー
-        shopAddress:
-          type: string
-          example: 〇県
-      xml:
-        name: shop
-
-    # お店パス結果：成功
-    failureShop:
-      required:
-        - shopId
-      type: object
-      properties:
-        shopId:
-          type: string
-          example: "shopId1"
-        shopName:
-          type: string
-          example: "丸スーパー"
-        shopAddress:
-          type: string
-          example: "〇県"
-      xml:
-        name: shop
-
-    # お店パス結果：成功
-    successStock:
-      required:
-        - shopId
-        - itemId
-      type: object
-      properties:
-        shopId:
-          type: string
-          example: shopId1
-        itemId:
-          type: string
-          example: itemId1
-        stock:
-          type: string
-          example: "100"
-      xml:
-        name: shop
-    # お店パス結果：成功
-    failureStock:
-      required:
-        - shopId
-        - itemId
-      type: object
-      properties:
-        shopId:
-          type: string
-          example: "shopId1"
-        itemId:
-          type: string
-          example: "itemId1"
-        stock:
-          type: string
-          example: "100"
-      xml:
-        name: shop
-
-    # 商品一覧取得
-    getItemList:
-      required:
-        - itemId
-        - shopId
-      type: object
-      properties:
-        itemId:
-          type: string
-          example: "item001"
-        itemName:
-          type: string
-          example: ティッシュ（5箱）
-        itemPrice:
-          type: string
-          example: "500"
-        shopId:
-          type: string
-          example: "shopId1"
-        shopName:
-          type: string
-          example: "丸スーパー"
-        stock:
-          type: string
-          example: "100"
-          xml:
-            name: getItemList
-
-      # 商品一覧取得失敗
-    failureItemList:
-      required:
-        - itemId
-        - shopId
-      type: object
-      properties:
-        itemId:
-          type: string
-          example: "item001"
-        itemName:
-          type: string
-          example: "ティッシュ（5箱）"
-        itemPrice:
-          type: string
-          example: "500"
-        shopId:
-          type: string
-          example: "shopId1"
-        shopName:
-          type: string
-          example: "丸スーパー"
-        stock:
-          type: string
-          example: "100"
-          xml:
-            name: failureItemList
     #ユーザー登録時のリクエスト
     requestRegistUser:
       required:
