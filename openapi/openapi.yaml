@@ -13,6 +13,8 @@ paths:
   # loginパス
   /login:
     post:
+      tags:
+        - login
       operationId: loginUser
       description: ユーザーログイン
       summary: ユーザーログイン
@@ -45,6 +47,8 @@ paths:
   # ユーザー登録
   /registUser:
     post:
+      tags:
+        - registUser
       operationId: registUser
       description: ユーザー登録
       summary: ユーザー登録
